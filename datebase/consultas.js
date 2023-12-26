@@ -15,7 +15,8 @@ const addPost = async ({titulo, url, descripcion}) => {
     const consulta = "INSERT INTO posts values (DEFAULT, $1, $2, $3, $4) RETURNING *";
     const values = [titulo, url, descripcion, 0];
     const result = await pool.query(consulta, values);
-    return result.rows[0] 
+    console.log(result);
+    return result.rows[0]; 
 }
 
 export {allPosts, addPost};

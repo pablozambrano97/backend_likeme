@@ -34,12 +34,17 @@ app.get("/posts", async (req, res)=>{
     }
 });
 
-app.post("/posts", (req, res) => {
+app.post("/posts", async (req, res) => {
     const {titulo, url, descripcion} = req.body;
+
     console.log(req.body);
     try {
-        const result = addPost( {titulo, url, descripcion});
-        return res.status(201).json({ ok: true, message: "Post agregado con exito", result });
+        if(!titulo || !url || !descripcion){
+            return res.status(206).json({ok: false, message: 'Información incompleta'});
+        }else{
+            const result = await addPost( {titulo, url, descripcion});
+            return res.status(201).json({ ok: true, message: "Post agregado con exito", result });
+        }
     } catch (error) {
         return res.json({ok: false, message: error.message});
     }
